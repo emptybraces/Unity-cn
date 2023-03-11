@@ -49,29 +49,6 @@ public static class cn
             _loggerCurrent.RemoveAt(_loggerCurrent.Count - 1);
     }
 
-    [Conditional("DEBUG")]
-    public static void logmem<T>(T obj, BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-    {
-        if (obj == null)
-            log("null");
-        else
-        {
-            var type = typeof(T);
-            foreach (var i in type.GetFields(flags))
-                _sb.Append(i.Name + "=" + i.GetValue(obj) + DELIM);
-            foreach (var i in type.GetProperties(flags))
-            {
-                try
-                {
-                    _sb.Append(i.Name + "=" + i.GetValue(obj) + DELIM);
-                }
-                catch { }
-            }
-            var result = _sb.ToString();
-            _sb.Clear();
-            log(result);
-        }
-    }
     public class DummyArg { };
     [Conditional("DEBUG")] public static void log(DummyArg _ = null, [CallerFilePath] string path = "", [CallerLineNumber] int line = 0) => _LogFormattedLine(LogType.Log, "", path, line);
     [Conditional("DEBUG")] public static void log<T1>(T1 t1) => _LogFormattedT(LogType.Log, "", t1, "", "");
@@ -329,7 +306,31 @@ public static class cn
             logger.Log(logType, s);
         _sb.Clear();
     }
-
+    [Conditional("DEBUG")]
+    public static void logmem<T>(T obj, BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+    {
+        if (obj == null)
+            log("null");
+        else
+        {
+            var type = typeof(T);
+            _sb.Append("[").Append(Time.frameCount).Append("] ");
+            foreach (var i in type.GetFields(flags))
+                _sb.Append(i.Name).Append("=").Append(i.GetValue(obj) ?? "null").Append(Environment.NewLine);
+            foreach (var i in type.GetProperties(flags))
+            {
+                try
+                {
+                    _sb.Append(i.Name).Append("=").Append(i.GetValue(obj) ?? "null").Append(Environment.NewLine);
+                }
+                catch
+                {
+                }
+            }
+            log(_sb.ToString());
+            _sb.Clear();
+        }
+    }
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void _DomainReset()
     {
