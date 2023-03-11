@@ -50,4 +50,4 @@ cn.PopLogger();
 - cn.loge, cn.logef are error log type version.
 
 ## DLL ready, for jump to called source when double click the console.
-"DLL/bin/Debug/netstandard2.1/cn_DLL.dll"
+https://github.com/emptybraces/Unity_cn/tree/main/DLL/bin/Debug/netstandard2.1
