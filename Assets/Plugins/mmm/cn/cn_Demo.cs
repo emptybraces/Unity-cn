@@ -104,6 +104,13 @@ namespace Mmm
 			cn.logGreen("logGreen");
 			cn.logGreenf("1", "2", "3", "4", Vector3.up);
 
+			cn.logColored();
+			cn.logColored("log");
+			cn.logColored("log", "test");
+			cn.logColoredf("log", "test");
+			for (int i = 0; i < 255; ++i)
+				cn.logColored((char)i);
+
 			cn.logmem(Vector3.one);
 			cn.logmem(this, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
