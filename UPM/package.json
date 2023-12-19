@@ -1,0 +1,11 @@
+{
+  "name": "com.emptybraces.cn",
+  "displayName": "cn",
+  "author": "emptybraces",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Custom Logger, easy, shortname, minimum.",
+  "keywords": ["console"],
+  "category": "Utility",
+  "dependencies": {}
+}
