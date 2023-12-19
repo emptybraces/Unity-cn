@@ -1,6 +1,13 @@
 # Unity_cn
 Custom Logger, easy, shortname, minimum.
 
+# Install
+Intall via Unity Package Manager:
+
+```
+https://github.com/emptybraces/Unity_cn.git?path=UPM
+```
+
 ## Samples
 ~~~
 cn.log();
@@ -50,4 +57,3 @@ cn.PopLogger();
 - cn.loge, cn.logef are error log type version.
 
 ## DLL ready, for jump to called source by double click the console.
-https://github.com/emptybraces/Unity_cn/tree/main/DLL/bin/Debug/netstandard2.1
