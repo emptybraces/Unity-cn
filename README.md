@@ -55,5 +55,8 @@ cn.PopLogger();
 - cn.logf(...) prints the framecount, filename and the function name that was called.
 - cn.logw, cn.logwf are warning log type version.
 - cn.loge, cn.logef are error log type version.
+- cn.logBlur, logGreen, logRed are colored version.
+- cn.logColored are automatically colored based on the called location.
+- cn.*Span are called every specified secs.
 
 ## DLL ready, for jump to called source by double click the console.
