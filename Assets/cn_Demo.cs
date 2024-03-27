@@ -74,6 +74,7 @@ namespace Mmm
 			cn.log();
 			cn.log(this);
 			cn.log("cn.log");
+			cn.log("1", 2f, 3.0, 4d, 5, 6);
 			cn.logf("1", "2", "3", "4");
 
 			// %appdata%\..\LocalLow\*\*\log.txt
@@ -104,13 +105,18 @@ namespace Mmm
 			cn.logGreen("logGreen");
 			cn.logGreenf("1", "2", "3", "4", Vector3.up);
 
+			cn.logRed();
+			cn.logRed(this);
+			cn.logRed("logRed");
+			cn.logRedf("1", "2", "3", "4", Vector3.up);
+
 			cn.logColored();
 			cn.logColored("log", "test");
 			cn.logColored("colorcolor");
 			cn.logColored("colorcolorcolor");
 
 			cn.logmem(Vector3.one);
-			cn.logmem(this, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			// cn.logmem(this, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
 			cn.LogEnable(false);
 			cn.logGreen("not show");
@@ -127,6 +133,20 @@ namespace Mmm
 				UnityEngine.Profiling.Profiler.EndSample();
 				UnityEditor.EditorApplication.isPaused = true;
 			}
+			cn.logSpan(1);
+			cn.logwSpan(1);
+			cn.logeSpan(1);
+			cn.logBlueSpan(1);
+			cn.logGreenSpan(1);
+			cn.logRedSpan(1);
+			cn.logColoredSpan(1);
+			cn.logSpan(2, "log every 2sec");
+			cn.logwSpan(2, "log every 2sec");
+			cn.logeSpan(2, "log every 2sec");
+			cn.logBlueSpan(2, "log every 2sec");
+			cn.logGreenSpan(2, "log every 2sec");
+			cn.logRedSpan(2, "log every 2sec");
+			cn.logColoredSpan(2, "log every 2sec");
 		}
 	}
 }
