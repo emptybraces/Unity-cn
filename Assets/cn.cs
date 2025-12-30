@@ -13,6 +13,7 @@ public static class cn
     static Logger _logger;
     static List<Logger> _loggerCurrent;
     static Dictionary<string, float> _spanManageDict;
+    public static int EditorFrameCount;
     const string DELIM = " ";
     const string COLOR_RED = "ff7777";
     const string COLOR_GREEN = "77ff77";
@@ -204,7 +205,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormatted(LogType logType, string color, string filePath, string member)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         if (filePath != "") _sb.Append(Path.GetFileName(filePath)).Append("#").Append(member).Append(": ");
         if (color != "") _sb.Append("</color>");
@@ -216,7 +217,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormattedT<T1>(LogType logType, string color, T1 t1, string filePath, string member)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         if (filePath != "") _sb.Append(Path.GetFileName(filePath)).Append("#").Append(member).Append(": ");
         _sb.Append(t1?.ToString() ?? "null");
@@ -229,7 +230,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormattedT<T1, T2>(LogType logType, string color, T1 t1, T2 t2, string filePath, string member)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         if (filePath != "") _sb.Append(Path.GetFileName(filePath)).Append("#").Append(member).Append(": ");
         _sb.Append(t1?.ToString() ?? "null").Append(DELIM);
@@ -243,7 +244,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormattedT<T1, T2, T3>(LogType logType, string color, T1 t1, T2 t2, T3 t3, string filePath, string member)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         if (filePath != "") _sb.Append(Path.GetFileName(filePath)).Append("#").Append(member).Append(": ");
         _sb.Append(t1?.ToString() ?? "null").Append(DELIM);
@@ -258,7 +259,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormattedT<T1, T2, T3, T4>(LogType logType, string color, T1 t1, T2 t2, T3 t3, T4 t4, string filePath, string member)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         if (filePath != "") _sb.Append(Path.GetFileName(filePath)).Append("#").Append(member).Append(": ");
         _sb.Append(t1?.ToString() ?? "null").Append(DELIM);
@@ -274,7 +275,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormattedT<T1, T2, T3, T4, T5>(LogType logType, string color, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, string filePath, string member)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         if (filePath != "") _sb.Append(Path.GetFileName(filePath)).Append("#").Append(member).Append(": ");
         _sb.Append(t1?.ToString() ?? "null").Append(DELIM);
@@ -291,7 +292,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormattedT(LogType logType, string color, string filePath, string member, params object[] args)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         if (filePath != "") _sb.Append(Path.GetFileName(filePath)).Append("#").Append(member).Append(": ");
         foreach (var i in args)
@@ -339,7 +340,7 @@ public static class cn
     [Conditional("DEBUG")]
     static void _LogFormattedLine(LogType logType, string color, string filePath, int lineNo)
     {
-        _sb.Append("[").Append(Time.frameCount).Append("] ");
+        _sb.Append("[").Append(GetFrameCount()).Append("] ");
         if (color != "") _sb.Append("<color=#").Append(color).Append(">");
         _sb.Append(Path.GetFileName(filePath)).Append("#").Append("LineNo=").Append(lineNo);
         if (color != "") _sb.Append("</color>");
@@ -367,7 +368,7 @@ public static class cn
         else
         {
             var type = typeof(T);
-            _sb.Append("[").Append(Time.frameCount).Append("] ");
+            _sb.Append("[").Append(GetFrameCount()).Append("] ");
             _sb.Append(type).AppendLine(", GetFields(): ");
             foreach (var i in type.GetFields(flags))
                 _sb.Append(i.Name).Append("=").Append(i.GetValue(obj) ?? "null").Append(Environment.NewLine);
@@ -378,7 +379,7 @@ public static class cn
                 {
                     _sb.Append(i.Name).Append("=").Append(i.GetValue(obj) ?? "null").Append(Environment.NewLine);
                 }
-                catch (Exception e)
+                catch
                 {
                     // _sb.AppendLine(e.Message);
                 }
@@ -389,13 +390,12 @@ public static class cn
             _sb.Clear();
         }
     }
-#if UNITY_EDITOR
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-	static void _DomainReset()
-	{
-		_sb = new StringBuilder(256);
-		_logger = new Logger(UnityEngine.Debug.unityLogger);
-		_loggerCurrent = new List<Logger>() { _logger };
-	}
-#endif
+    static int GetFrameCount() => Application.isPlaying ? Time.frameCount : EditorFrameCount;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void _DomainReset()
+    {
+        _sb = new StringBuilder(256);
+        _logger = new Logger(UnityEngine.Debug.unityLogger);
+        _loggerCurrent = new List<Logger>() { _logger };
+    }
 }

@@ -47,3 +47,9 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+/DLL/UnityEditor.dll
+/DLL/UnityEngine.dll
+/DLL/DLL/bin/Debug/UnityEditor.dll
+/DLL/DLL/bin/Debug/UnityEngine.dll
+/DLL/DLL_Editor/bin/Debug/UnityEditor.dll
+/DLL/DLL_Editor/bin/Debug/UnityEngine.dll
